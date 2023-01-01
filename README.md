@@ -1,16 +1,10 @@
 # RSO: Searcher microservice
 
-## Prerequisites
-
-```bash
-docker run -d --name pg-image-metadata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=image-metadata -p 5432:5432 postgres:13
-```
-
 ## Build and run commands
 ```bash
 mvn clean package
 cd api/target
-java -jar image-catalog-api-1.0.0-SNAPSHOT.jar
+java -jar searcher-api-1.0.0-SNAPSHOT.jar
 ```
 
 ## Run in IntelliJ IDEA
@@ -28,10 +22,10 @@ docker ps
 
 ## URLs
 
-Health: localhost:8080/health/live
+Health: localhost:8081/health/live
 
-Metrics:localhost:8080/health/metrics
+Metrics:localhost:8081/health/metrics
 
-GraphQL: localhost:8080/graphiql
+GraphQL: localhost:8081/graphiql
 
-OpenAPI: localhost:8080/api-specs/ui/
+OpenAPI: localhost:8081/api-specs/ui/

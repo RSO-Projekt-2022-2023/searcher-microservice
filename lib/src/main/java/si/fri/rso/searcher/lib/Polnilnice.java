@@ -7,7 +7,7 @@ public class Polnilnice {
     private Float coord_east;
     private Integer chargers;
     private Integer available;
-    private Float distance;
+    private Double distance;
     private Integer time;
     private String city;
     private String street;
@@ -53,9 +53,9 @@ public class Polnilnice {
         this.polnilniceId = searcherId;
     }
 
-    public void setDistance(Float distance) { this.distance = distance; }
+    public void setDistance(Double distance) { this.distance = distance; }
 
-    public Float getDistance() { return distance; }
+    public Double getDistance() { return distance; }
 
     public void setTime(Integer time) { this.time = time; }
 

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kumuluz.ee.configuration.cdi.ConfigBundle;
 import com.kumuluz.ee.configuration.cdi.ConfigValue;
 import com.kumuluz.ee.logs.cdi.Log;
-import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -16,13 +15,14 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import si.fri.rso.searcher.lib.Polnilnice;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.json.Json;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -77,7 +77,51 @@ public class SearcherResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
 
-        // TODO: External api za racunanje poti
+        // MapQuest API
+        JSONObject jsonBody = new JSONObject();
+        JSONArray coordArray = new JSONArray();
+
+        JSONObject currCoord = new JSONObject()
+                .put("latLng", new JSONObject()
+                        .put("lat", curr_north)
+                        .put("lng", curr_east));
+        coordArray.put(currCoord);
+
+        JSONObject options = new JSONObject().put("manyToOne", true);
+        jsonBody.put("options", options);
+
+        for (int i=0; i < polnilniceList.size(); i++) {
+            JSONObject coords = new JSONObject()
+                    .put("latLng", new JSONObject()
+                            .put("lat", polnilniceList.get(i).getCoord_north())
+                            .put("lng", polnilniceList.get(i).getCoord_east()));
+            coordArray.put(coords);
+        }
+        jsonBody.put("locations", coordArray);
+
+        String mapQuestApiResponse = myHttpPost(distanceapi, jsonBody.toString());
+        JSONObject mapQuestJson;
+        JSONArray distances;
+        JSONArray times;
+        JSONArray locations;
+
+        try {
+            mapQuestJson = new JSONObject(mapQuestApiResponse);
+            distances = (JSONArray) mapQuestJson.get("distance");
+            times = (JSONArray) mapQuestJson.get("time");
+            locations = (JSONArray) mapQuestJson.get("locations");
+        } catch (JSONException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("External API JSON response parsing error").build();
+        }
+
+        for (int i=0; i < polnilniceList.size(); i++) {
+            Polnilnice element = polnilniceList.get(i);
+            element.setDistance((Double) distances.get(i+1));
+            element.setTime((Integer) times.get(i+1));
+            JSONObject location = (JSONObject) locations.get(i+1);
+            element.setCity((String) location.get("adminArea5"));
+            element.setStreet((String) location.get("street"));
+        }
 
         return Response.status(Response.Status.OK).entity(polnilniceList).build();
     }

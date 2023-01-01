@@ -39,3 +39,5 @@ kumuluzee:
 rest-properties:
   maintenance-mode: false
   broken: false
+external-api:
+  distanceapi: http://www.mapquestapi.com/directions/v2/routematrix?key=RfVAdKJ87CU9OIZBm4GWGBLkVkHv8E7b
