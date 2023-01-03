@@ -12,6 +12,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -38,6 +39,7 @@ import java.util.Optional;
 @Path("/search")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@CrossOrigin(allowOrigin = "*")
 public class SearcherResource {
 
     private Optional<String> polnilnice_host;

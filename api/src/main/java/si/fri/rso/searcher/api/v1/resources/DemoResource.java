@@ -11,11 +11,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.logging.Logger;
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 
 @ApplicationScoped
 @Path("/demo")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@CrossOrigin(allowOrigin = "*")
 public class DemoResource {
 
     private Logger log = Logger.getLogger(DemoResource.class.getName());
