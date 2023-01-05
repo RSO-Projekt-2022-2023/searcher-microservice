@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searcher-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: searcher
+  template:
+    metadata:
+      labels:
+        app: searcher
+    spec:
+      containers:
+        - image: kkklemennn/searcher:2023-01-03-13-17-22
+          name: searcher
+          ports:
+            - containerPort: 8081
+              name: server
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 3
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: searcher
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: searcher
