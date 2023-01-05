@@ -13,7 +13,7 @@ spec:
         app: searcher
     spec:
       containers:
-        - image: kkklemennn/searcher:2023-01-05-20-59-13
+        - image: kkklemennn/searcher:2023-01-05-21-16-04
           name: searcher
           ports:
             - containerPort: 8081
