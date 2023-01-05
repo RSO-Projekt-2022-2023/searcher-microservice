@@ -13,7 +13,7 @@ spec:
         app: searcher
     spec:
       containers:
-        - image: kkklemennn/searcher:2023-01-03-13-17-22
+        - image: kkklemennn/searcher:2023-01-05-20-59-13
           name: searcher
           ports:
             - containerPort: 8081
@@ -39,7 +39,7 @@ kind: Service
 metadata:
   name: searcher
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 8081
       protocol: TCP
