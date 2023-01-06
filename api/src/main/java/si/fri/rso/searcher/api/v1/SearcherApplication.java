@@ -16,7 +16,7 @@ import com.kumuluz.ee.cors.annotations.CrossOrigin;
         license = @License(name = "dev"), description = "API for managing searcher."),
         servers = @Server(url = "http://localhost:8081/"))
 @ApplicationPath("/v1")
-@CrossOrigin
+@CrossOrigin(supportedMethods = "GET, POST, HEAD, OPTIONS, PUT, DELETE")
 public class SearcherApplication extends Application {
 
 }
