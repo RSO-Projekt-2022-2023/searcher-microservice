@@ -64,7 +64,7 @@ public class SearcherResource {
     public Response getPolnilnice(@PathParam("curr_north") Float curr_north, @PathParam("curr_east") Float curr_east) {
         List<Polnilnice> polnilniceList = null;
 
-        polnilnice_host = Optional.of("http://20.105.11.52/polnilnica");
+        polnilnice_host = Optional.of("http://20.105.42.67/polnilnica");
 
         String polnilniceString = myHttpGet(polnilnice_host.get() + "/v1/polnilnice", null);
 
